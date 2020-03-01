@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
 			button.SetAction(() => SetPlanet(planet));
 		}
 
-		SetPlanet(_planets.First(x => x.Name == "Earth"));
+		_uiController.SetCountBounce(_bounceCount);
 	}
 
 	private void Update()
@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
 	private void IncrementBounceCount()
 	{
 		_bounceCount++;
+		_uiController.SetCountBounce(_bounceCount);
 	}
 
 	private void SetPlanet(PlanetInfo info)
