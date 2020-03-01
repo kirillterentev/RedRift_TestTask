@@ -9,23 +9,24 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	private Rigidbody2D _ball;
 
-	private Vector2 _centerOfScreen;
+	private InputController _inputController;
+	private Vector2? _forceDirection;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _centerOfScreen = new Vector2(Screen.width / 2, Screen.height / 2);
-    }
+	private void Awake()
+	{
+#if UNITY_EDITOR
+		_inputController = gameObject.AddComponent<MouseController>();
+#endif
 
-    // Update is called once per frame
-    void Update()
+
+	}
+
+    private void Update()
     {
-	    if (Input.GetMouseButton(0))
+	    _forceDirection = _inputController.GetInputDirection();
+	    if (_forceDirection != null)
 	    {
-		    Vector2 mousePosition = Input.mousePosition;
-			Vector2 forceDirection = new Vector2(mousePosition.x - _centerOfScreen.x, 0);
-
-			_ball.AddForce(forceDirection * ForceSensitivity, ForceMode2D.Force);
+			_ball.AddForce((Vector2)_forceDirection * ForceSensitivity, ForceMode2D.Force);
 	    }
     }
 }
