@@ -18,10 +18,12 @@ public class GameController : MonoBehaviour
 		_inputController = gameObject.AddComponent<MouseController>();
 #endif
 
-
+#if UNITY_ANDROID
+		_inputController = gameObject.AddComponent<TouchController>();
+#endif
 	}
 
-    private void Update()
+	private void Update()
     {
 	    _forceDirection = _inputController.GetInputDirection();
 	    if (_forceDirection != null)
