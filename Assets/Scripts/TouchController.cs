@@ -22,4 +22,9 @@ public class TouchController : MonoBehaviour, InputController
 
 		return _inputDirection;
 	}
+
+	public bool GetButtonBack()
+	{
+		return Input.GetButtonDown("Cancel");
+	}
 }

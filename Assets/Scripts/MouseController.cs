@@ -22,5 +22,10 @@ public class MouseController : MonoBehaviour, InputController
 
 		return _inputDirection;
 	}
+
+	public bool GetButtonBack()
+	{
+		return Input.GetKey(KeyCode.Escape);
+	}
 }
 

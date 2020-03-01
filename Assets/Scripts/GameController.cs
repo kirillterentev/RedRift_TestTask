@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 	[SerializeField]
 	private Rigidbody2D _ball;
 	[SerializeField]
+	private UIController _uiController;
+	[SerializeField]
 	private PlatformController[] _platforms;
 	[SerializeField]
 	private GameObject _buttonsParent;
@@ -47,6 +49,11 @@ public class GameController : MonoBehaviour
 	    if (_forceDirection != null)
 	    {
 			_ball.AddForce((Vector2)_forceDirection * ForceSensitivity, ForceMode2D.Force);
+	    }
+
+	    if (_inputController.GetButtonBack())
+	    {
+			_uiController.SetActiveSwitchPlanetWindow();
 	    }
     }
 
