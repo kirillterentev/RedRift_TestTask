@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -12,9 +13,12 @@ public class GameController : MonoBehaviour
 	private PlatformController[] _platforms;
 	[SerializeField]
 	private GameObject _buttonsParent;
+	[SerializeField]
+	private PlanetInfo[] _planets;
 
 	private InputController _inputController;
 	private AbstractFactory _buttonFactory;
+	private PlanetInfo _currentPlanet;
 	private Vector2? _forceDirection;
 	private int _bounceCount = 0;
 
@@ -38,9 +42,14 @@ public class GameController : MonoBehaviour
 			platform.CollisionEvent.AddListener(IncrementBounceCount);
 		}
 
-		_buttonFactory.CreateProduct<IButton>();
-		_buttonFactory.CreateProduct<IButton>();
-		_buttonFactory.CreateProduct<IButton>();
+		foreach (var planet in _planets)
+		{
+			var button = _buttonFactory.CreateProduct<IButton>();
+			button.SetText(planet.Name);
+			button.SetAction(() => SetPlanet(planet));
+		}
+
+		SetPlanet(_planets.First(x => x.Name == "Earth"));
 	}
 
 	private void Update()
@@ -60,5 +69,15 @@ public class GameController : MonoBehaviour
 	private void IncrementBounceCount()
 	{
 		_bounceCount++;
+	}
+
+	private void SetPlanet(PlanetInfo info)
+	{
+		_currentPlanet = info;
+
+		Physics2D.gravity = info.Gravity;
+		Camera.main.backgroundColor = info.BackgroundColor;
+
+		_uiController.SetActiveSwitchPlanetWindow();
 	}
 }

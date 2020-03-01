@@ -25,7 +25,7 @@ public class MouseController : MonoBehaviour, InputController
 
 	public bool GetButtonBack()
 	{
-		return Input.GetKey(KeyCode.Escape);
+		return Input.GetKeyDown(KeyCode.Escape);
 	}
 }
 
