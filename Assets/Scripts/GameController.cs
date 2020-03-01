@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -10,8 +8,11 @@ public class GameController : MonoBehaviour
 	private Rigidbody2D _ball;
 	[SerializeField]
 	private PlatformController[] _platforms;
+	[SerializeField]
+	private GameObject _buttonsParent;
 
 	private InputController _inputController;
+	private AbstractFactory _buttonFactory;
 	private Vector2? _forceDirection;
 	private int _bounceCount = 0;
 
@@ -24,6 +25,8 @@ public class GameController : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
 		_inputController = gameObject.AddComponent<TouchController>();
 #endif
+
+		_buttonFactory = _buttonsParent.AddComponent<ButtonsFactory>();
 	}
 
 	private void Start()
@@ -32,6 +35,10 @@ public class GameController : MonoBehaviour
 		{
 			platform.CollisionEvent.AddListener(IncrementBounceCount);
 		}
+
+		_buttonFactory.CreateProduct<IButton>();
+		_buttonFactory.CreateProduct<IButton>();
+		_buttonFactory.CreateProduct<IButton>();
 	}
 
 	private void Update()
